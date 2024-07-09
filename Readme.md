@@ -1,6 +1,6 @@
 # Server Side Configurations :-
 
-`npm init -y`
+`npm init -y \`
 `npm i graphql`
 `npm i mongoose`
 `npm i apollo-server`
