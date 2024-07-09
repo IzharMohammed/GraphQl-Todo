@@ -8,3 +8,11 @@ title
 completed
 }}
 `
+
+export const DELETE_TODOS =gql`
+mutation deleteTodos($id : ID!){
+deleteTodo(id : $id){
+id
+}
+}
+`

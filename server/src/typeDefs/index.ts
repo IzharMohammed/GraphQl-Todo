@@ -15,6 +15,7 @@ getTodos : [Todo]!
 
 type Mutation {
 addTodo(title : String! , tags : [String]!) : Todo
+deleteTodo(id : ID!) : Todo
 }
 
 `

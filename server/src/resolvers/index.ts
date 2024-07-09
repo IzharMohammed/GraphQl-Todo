@@ -17,6 +17,10 @@ const resolvers = {
         // Resolver to add a new todo
         addTodo: async (_: any, { title, tags }: { title: String, tags: String[] }) => {
             return await todoService.create(title, tags);
+        },
+
+        deleteTodo : async (_:any ,{id} : {id : String})=>{
+            return await todoService.deleteTodo(id);
         }
     }
 }

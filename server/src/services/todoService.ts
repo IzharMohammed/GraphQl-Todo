@@ -21,6 +21,11 @@ class TodoService {
     async create(title: String, tags: String[]) {
         return await this.todoRepository.create(title, tags);
     }
+
+    async deleteTodo(id : String){
+        return await this.todoRepository.deleteTodo(id);
+    }
+
 }
 
 export default TodoService;

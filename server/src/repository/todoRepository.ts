@@ -19,6 +19,17 @@ class TodoRepository {
             completed: false
         });
     }
+
+   async  deleteTodo(id : any){
+    try{
+        const result = await Todo.findByIdAndDelete(id);
+        console.log('deleted item',result);
+        return result;
+    }catch(error){
+        console.log('Error removing document:', error);
+
+    }
+   } 
 }
 
 export default TodoRepository;
