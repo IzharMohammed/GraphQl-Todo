@@ -7,9 +7,11 @@ import { GetTodosData, ITodo } from "../types/Todo";
 
 export const Todo: React.FC = () => {
 
+    // State variables for title and tags
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState('');
 
+    // Mutation hook to add a new todo
     const [addTodo] = useMutation(ADD_TODO, {
 
         optimisticResponse: {
@@ -20,44 +22,50 @@ export const Todo: React.FC = () => {
                 tags: tags.split(',').map(tag => tag.trim())
             }
         },
+
         update: (cache, { data: { addTodo } }) => {
+
+            // Read the current cached todos
             const cachedTodos = cache.readQuery<GetTodosData>({
                 query: GET_TODOS
             }) || { getTodos: [] }
-            console.log('cached todos :', cachedTodos);
+
+            // Write the new todo to the cache
             cache.writeQuery({
                 query: GET_TODOS,
                 data: {
                     getTodos: [...cachedTodos.getTodos, addTodo]
                 }
             })
+
         }
     })
 
+    // Mutation hook to delete a todo
     const [deleteTodo] = useMutation(DELETE_TODOS, {
+
         update : (cache , {data : {deleteTodo}}) => {
-    
-            const deletedCache = cache.readQuery<GetTodosData>({
+            // Read the current cached todos
+            const cachedTodos = cache.readQuery<GetTodosData>({
                 query : GET_TODOS
             }) || {getTodos : []}
 
-            console.log('deleted cache', deletedCache.getTodos);
-            
+            // Filter out the deleted todo from the cache
             cache.writeQuery({
                 query : GET_TODOS,
                 data : {
-                    getTodos : deletedCache.getTodos.filter(todo=>todo.id!=deleteTodo.id)
+                    getTodos : cachedTodos.getTodos.filter(todo => todo.id != deleteTodo.id)
                 }
             })
+
         }
     });
 
-    
+    // Query hook to get all todos
     const { data } = useQuery(GET_TODOS);
 
 
-    useEffect(()=>{},[data]);
-
+    // Function to handle adding a todo
     function handleAddTodo(e: React.FormEvent) {
         e.preventDefault();
         addTodo({
@@ -66,10 +74,13 @@ export const Todo: React.FC = () => {
                 tags: tags.split(',').map(tag => tag.trim())
             }
         })
+        // Reset the form fields
+        setTags('');
+        setTitle('');
     }
 
-    function handleDelete(id) {
-
+    // Function to handle deleting a todo
+    function handleDelete(id : String) {
         deleteTodo({
             variables: {
                 id
