@@ -23,6 +23,9 @@ export const Todo: React.FC = () => {
             }
         },
 
+        //the addTodo is returned because we have defined in backend that  when we addTodo then it should return TODO inside typeDefs
+        // inside addTodos and the reason why we have destructures data is we can see it in apollo server at 4000 port , when we add any todo 
+        // then its returning in data and inside it addTodo
         update: (cache, { data: { addTodo } }) => {
 
             // Read the current cached todos
@@ -44,17 +47,17 @@ export const Todo: React.FC = () => {
     // Mutation hook to delete a todo
     const [deleteTodo] = useMutation(DELETE_TODOS, {
 
-        update : (cache , {data : {deleteTodo}}) => {
+        update: (cache, { data: { deleteTodo } }) => {
             // Read the current cached todos
             const cachedTodos = cache.readQuery<GetTodosData>({
-                query : GET_TODOS
-            }) || {getTodos : []}
+                query: GET_TODOS
+            }) || { getTodos: [] }
 
             // Filter out the deleted todo from the cache
             cache.writeQuery({
-                query : GET_TODOS,
-                data : {
-                    getTodos : cachedTodos.getTodos.filter(todo => todo.id != deleteTodo.id)
+                query: GET_TODOS,
+                data: {
+                    getTodos: cachedTodos.getTodos.filter(todo => todo.id != deleteTodo.id)
                 }
             })
 
@@ -80,7 +83,7 @@ export const Todo: React.FC = () => {
     }
 
     // Function to handle deleting a todo
-    function handleDelete(id : String) {
+    function handleDelete(id: String) {
         deleteTodo({
             variables: {
                 id
