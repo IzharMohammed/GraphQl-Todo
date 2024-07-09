@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { ADD_TODO } from "../graphql/mutations"
 import uuid from 'react-uuid';
-import { Key, useEffect, useState } from "react";
+import { Key, useState } from "react";
 import { GET_TODOS } from "../graphql/query";
 import { GetTodosData, ITodo } from "../types/Todo";
 
@@ -47,10 +47,6 @@ export const Todo: React.FC = () => {
         })
     }
 
-    useEffect(() => {
-        console.log('cached data :-', data);
-
-    }, [])
 
     return (
         <>
